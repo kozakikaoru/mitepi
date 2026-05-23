@@ -14,7 +14,38 @@
 		408255E32D3A00010000001B /* AddMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000014 /* AddMovieView.swift */; };
 		408255E32D3A00010000001C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000015 /* Assets.xcassets */; };
 		408255E32D3A000100000026 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000016 /* Preview Assets.xcassets */; };
+		408255E32D3A000100000044 /* SharedModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000043 /* SharedModelContainer.swift */; };
+		408255E32D3A00010000003D /* mitepiWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000038 /* mitepiWidgetBundle.swift */; };
+		408255E32D3A00010000003E /* mitepiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000039 /* mitepiWidget.swift */; };
+		408255E32D3A00010000003F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A00010000003A /* Assets.xcassets */; };
+		408255E32D3A000100000040 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000012 /* Movie.swift */; };
+		408255E32D3A000100000045 /* SharedModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000043 /* SharedModelContainer.swift */; };
+		408255E32D3A000100000049 /* mitepiWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 408255E32D3A000100000037 /* mitepiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		408255E32D3A000100000046 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 408255E32D3A000100000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 408255E32D3A000100000030;
+			remoteInfo = mitepiWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		408255E32D3A000100000048 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				408255E32D3A000100000049 /* mitepiWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		408255E32D3A00010000000F /* mitepi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mitepi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -25,10 +56,24 @@
 		408255E32D3A000100000014 /* AddMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMovieView.swift; sourceTree = "<group>"; };
 		408255E32D3A000100000015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		408255E32D3A000100000016 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		408255E32D3A000100000037 /* mitepiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mitepiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		408255E32D3A000100000038 /* mitepiWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mitepiWidgetBundle.swift; sourceTree = "<group>"; };
+		408255E32D3A000100000039 /* mitepiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mitepiWidget.swift; sourceTree = "<group>"; };
+		408255E32D3A00010000003A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		408255E32D3A00010000003C /* mitepiWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mitepiWidget.entitlements; sourceTree = "<group>"; };
+		408255E32D3A000100000042 /* mitepi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mitepi.entitlements; sourceTree = "<group>"; };
+		408255E32D3A000100000043 /* SharedModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedModelContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		408255E32D3A00010000001E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		408255E32D3A000100000035 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				408255E32D3A00010000000B /* mitepi */,
+				408255E32D3A000100000041 /* mitepiWidget */,
 				408255E32D3A00010000000A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				408255E32D3A00010000000F /* mitepi.app */,
+				408255E32D3A000100000037 /* mitepiWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,8 +104,10 @@
 		408255E32D3A00010000000B /* mitepi */ = {
 			isa = PBXGroup;
 			children = (
+				408255E32D3A000100000042 /* mitepi.entitlements */,
 				408255E32D3A000100000010 /* MitepiApp.swift */,
 				408255E32D3A000100000011 /* ContentView.swift */,
+				408255E32D3A000100000043 /* SharedModelContainer.swift */,
 				408255E32D3A00010000000C /* Models */,
 				408255E32D3A00010000000D /* Views */,
 				408255E32D3A000100000015 /* Assets.xcassets */,
@@ -92,6 +141,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		408255E32D3A000100000041 /* mitepiWidget */ = {
+			isa = PBXGroup;
+			children = (
+				408255E32D3A00010000003C /* mitepiWidget.entitlements */,
+				408255E32D3A000100000038 /* mitepiWidgetBundle.swift */,
+				408255E32D3A000100000039 /* mitepiWidget.swift */,
+				408255E32D3A00010000003A /* Assets.xcassets */,
+			);
+			path = mitepiWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -102,15 +162,34 @@
 				408255E32D3A00010000001D /* Sources */,
 				408255E32D3A00010000001E /* Frameworks */,
 				408255E32D3A00010000001F /* Resources */,
+				408255E32D3A000100000048 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				408255E32D3A000100000047 /* PBXTargetDependency */,
 			);
 			name = mitepi;
 			productName = mitepi;
 			productReference = 408255E32D3A00010000000F /* mitepi.app */;
 			productType = "com.apple.product-type.application";
+		};
+		408255E32D3A000100000030 /* mitepiWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 408255E32D3A000100000033 /* Build configuration list for PBXNativeTarget "mitepiWidgetExtension" */;
+			buildPhases = (
+				408255E32D3A000100000034 /* Sources */,
+				408255E32D3A000100000035 /* Frameworks */,
+				408255E32D3A000100000036 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mitepiWidgetExtension;
+			productName = mitepiWidgetExtension;
+			productReference = 408255E32D3A000100000037 /* mitepiWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -123,6 +202,9 @@
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					408255E32D3A000100000005 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					408255E32D3A000100000030 = {
 						CreatedOnToolsVersion = 15.4;
 					};
 				};
@@ -142,6 +224,7 @@
 			projectRoot = "";
 			targets = (
 				408255E32D3A000100000005 /* mitepi */,
+				408255E32D3A000100000030 /* mitepiWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -156,6 +239,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		408255E32D3A000100000036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				408255E32D3A00010000003F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -166,12 +257,32 @@
 				408255E32D3A000100000018 /* ContentView.swift in Sources */,
 				408255E32D3A000100000017 /* MitepiApp.swift in Sources */,
 				408255E32D3A000100000019 /* Movie.swift in Sources */,
+				408255E32D3A000100000044 /* SharedModelContainer.swift in Sources */,
 				408255E32D3A00010000001A /* MovieListView.swift in Sources */,
 				408255E32D3A00010000001B /* AddMovieView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		408255E32D3A000100000034 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				408255E32D3A00010000003D /* mitepiWidgetBundle.swift in Sources */,
+				408255E32D3A00010000003E /* mitepiWidget.swift in Sources */,
+				408255E32D3A000100000040 /* Movie.swift in Sources */,
+				408255E32D3A000100000045 /* SharedModelContainer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		408255E32D3A000100000047 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 408255E32D3A000100000030 /* mitepiWidgetExtension */;
+			targetProxy = 408255E32D3A000100000046 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		408255E32D3A000100000020 /* Debug */ = {
@@ -296,8 +407,10 @@
 		408255E32D3A000100000023 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = mitepi/mitepi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"mitepi/Preview Content\"";
@@ -325,8 +438,10 @@
 		408255E32D3A000100000024 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = mitepi/mitepi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"mitepi/Preview Content\"";
@@ -351,6 +466,58 @@
 			};
 			name = Release;
 		};
+		408255E32D3A000100000031 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = mitepiWidget/mitepiWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "みてぴ Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mitepi.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		408255E32D3A000100000032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = mitepiWidget/mitepiWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "みてぴ Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mitepi.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -368,6 +535,15 @@
 			buildConfigurations = (
 				408255E32D3A000100000023 /* Debug */,
 				408255E32D3A000100000024 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		408255E32D3A000100000033 /* Build configuration list for PBXNativeTarget "mitepiWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				408255E32D3A000100000031 /* Debug */,
+				408255E32D3A000100000032 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
