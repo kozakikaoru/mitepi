@@ -3,20 +3,29 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>みてぴ - 映画と仲間とつながる、新しい鑑賞体験</title>
+<title>みてぴ - 映画選びを、もっとスマートに。</title>
 <style>
   :root {
     --bg: #0a0a0f;
     --bg-soft: #12121a;
+    --bg-card: #1a1a24;
     --fg: #f5f5f7;
     --fg-muted: #a0a0ac;
+    --fg-dim: #6b6b78;
     --accent: #ff5577;
     --accent-2: #7c5cff;
+    --accent-3: #00d4aa;
     --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.15);
+
+    --netflix: #e50914;
+    --prime: #00a8e1;
+    --disney: #0c5eff;
+    --hulu: #1ce783;
+    --uneko: #ff6b35;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -29,7 +38,7 @@
   }
 
   .container {
-    max-width: 1100px;
+    max-width: 1180px;
     margin: 0 auto;
     padding: 0 24px;
   }
@@ -38,8 +47,9 @@
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
-    padding: 20px 0;
+    padding: 18px 0;
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     background: rgba(10, 10, 15, 0.7);
     border-bottom: 1px solid var(--border);
     z-index: 100;
@@ -73,30 +83,30 @@
   /* ---- Hero ---- */
   .hero {
     position: relative;
-    padding: 180px 0 120px;
+    padding: 160px 0 80px;
     overflow: hidden;
   }
   .hero::before {
     content: "";
     position: absolute;
     top: -200px; right: -200px;
-    width: 600px; height: 600px;
+    width: 700px; height: 700px;
     background: radial-gradient(circle, rgba(255, 85, 119, 0.25), transparent 70%);
     pointer-events: none;
   }
   .hero::after {
     content: "";
     position: absolute;
-    bottom: -200px; left: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(124, 92, 255, 0.2), transparent 70%);
+    bottom: -300px; left: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.22), transparent 70%);
     pointer-events: none;
   }
   .hero-content {
     position: relative;
     z-index: 1;
     text-align: center;
-    max-width: 760px;
+    max-width: 820px;
     margin: 0 auto;
   }
   .hero-badge {
@@ -110,10 +120,10 @@
     margin-bottom: 28px;
   }
   .hero h1 {
-    font-size: clamp(36px, 6vw, 64px);
+    font-size: clamp(36px, 6vw, 68px);
     font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
     margin-bottom: 24px;
   }
   .hero h1 .gradient {
@@ -157,17 +167,494 @@
   }
   .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
 
-  /* ---- Section ---- */
-  section {
-    padding: 100px 0;
+  /* ---- Hero phone preview ---- */
+  .hero-preview {
+    position: relative;
+    z-index: 1;
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    perspective: 1500px;
   }
-  .section-label {
+  .hero-preview .phone {
+    transition: transform 0.4s;
+  }
+  .hero-preview .phone:nth-child(1) { transform: rotateY(15deg) translateZ(-50px); }
+  .hero-preview .phone:nth-child(2) { transform: translateY(-20px); z-index: 2; }
+  .hero-preview .phone:nth-child(3) { transform: rotateY(-15deg) translateZ(-50px); }
+  @media (max-width: 900px) {
+    .hero-preview .phone:nth-child(1),
+    .hero-preview .phone:nth-child(3) { display: none; }
+  }
+
+  /* ---- 3 key points ribbon ---- */
+  .key-points {
+    padding: 60px 0;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .key-points-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    .key-points-grid { grid-template-columns: 1fr; }
+  }
+  .key-point {
+    padding: 20px;
+  }
+  .key-point-emoji {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+  .key-point-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .key-point-desc {
+    font-size: 14px;
+    color: var(--fg-muted);
+  }
+
+  /* ---- Feature section ---- */
+  .feature-section {
+    padding: 120px 0;
+    position: relative;
+  }
+  .feature-section.alt {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .feature-row.reverse .feature-text { order: 2; }
+  .feature-row.reverse .feature-visual { order: 1; }
+  @media (max-width: 900px) {
+    .feature-row,
+    .feature-row.reverse {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .feature-row.reverse .feature-text { order: 1; }
+    .feature-row.reverse .feature-visual { order: 2; }
+  }
+  .feature-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .feature-label.pink {
+    background: rgba(255, 85, 119, 0.15);
+    color: var(--accent);
+  }
+  .feature-label.purple {
+    background: rgba(124, 92, 255, 0.15);
+    color: var(--accent-2);
+  }
+  .feature-label.green {
+    background: rgba(0, 212, 170, 0.15);
+    color: var(--accent-3);
+  }
+  .feature-title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .feature-description {
+    font-size: 17px;
+    color: var(--fg-muted);
+    margin-bottom: 28px;
+  }
+  .feature-bullets {
+    list-style: none;
+    padding: 0;
+  }
+  .feature-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    color: var(--fg);
+  }
+  .feature-bullets li::before {
+    content: "✓";
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  /* ---- Phone Mockup ---- */
+  .feature-visual {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  .phone {
+    width: 290px;
+    height: 600px;
+    border-radius: 44px;
+    background: linear-gradient(135deg, #2a2a36, #1a1a22);
+    padding: 10px;
+    position: relative;
+    border: 1px solid var(--border-strong);
+    box-shadow:
+      0 40px 80px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    flex-shrink: 0;
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 36px;
+    background: #0e0e16;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone-notch {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 28px;
+    background: #000;
+    border-radius: 18px;
+    z-index: 10;
+  }
+  .phone-content {
+    padding: 56px 16px 24px;
+    height: 100%;
+    overflow: hidden;
+  }
+  .phone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .phone-title {
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .phone-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  /* ---- Tinder Card Stack ---- */
+  .tinder-area {
+    position: relative;
+    height: 380px;
+    margin-bottom: 20px;
+  }
+  .tinder-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #5a3a8a, #2a1a4a);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tinder-card.bg-1 {
+    transform: rotate(-6deg) translateY(-12px) scale(0.92);
+    background: linear-gradient(180deg, #8a3a3a, #4a1a1a);
+    z-index: 1;
+  }
+  .tinder-card.bg-2 {
+    transform: rotate(4deg) translateY(-6px) scale(0.96);
+    background: linear-gradient(180deg, #3a5a8a, #1a2a4a);
+    z-index: 2;
+  }
+  .tinder-card.top {
+    transform: rotate(-2deg);
+    z-index: 3;
+  }
+  .tinder-poster {
+    width: 100%;
+    height: 70%;
+    background: linear-gradient(135deg, #ff5577, #7c5cff);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+  }
+  .tinder-info {
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+  }
+  .tinder-info-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .tinder-info-meta {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .tinder-stamp {
+    position: absolute;
+    top: 30px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    transform: rotate(-15deg);
+    opacity: 0.95;
+    z-index: 4;
+  }
+  .tinder-stamp.like {
+    right: 20px;
+    color: var(--accent-3);
+    border: 3px solid var(--accent-3);
+    background: rgba(0, 212, 170, 0.1);
+  }
+  .tinder-actions {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 12px;
+  }
+  .tinder-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  .tinder-btn.no {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ff5577;
+    border: 2px solid #ff5577;
+  }
+  .tinder-btn.yes {
+    background: linear-gradient(135deg, var(--accent-3), #00b894);
+    color: white;
+  }
+
+  /* ---- Shared List Mockup ---- */
+  .shared-list-header {
+    margin-bottom: 14px;
+  }
+  .shared-list-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .shared-list-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .avatars {
+    display: flex;
+  }
+  .avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #0e0e16;
+    margin-left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .avatar.a { background: linear-gradient(135deg, #ff5577, #ff8888); }
+  .avatar.b { background: linear-gradient(135deg, #7c5cff, #5cb3ff); }
+  .avatar.c { background: linear-gradient(135deg, #00d4aa, #00b894); }
+  .avatar.d { background: linear-gradient(135deg, #ff9500, #ff6b00); }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .list-item-poster {
+    width: 38px;
+    height: 52px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #555, #333);
+    flex-shrink: 0;
+  }
+  .list-item-poster.p1 { background: linear-gradient(135deg, #ff5577, #ff8888); }
+  .list-item-poster.p2 { background: linear-gradient(135deg, #7c5cff, #5cb3ff); }
+  .list-item-poster.p3 { background: linear-gradient(135deg, #00d4aa, #00b894); }
+  .list-item-poster.p4 { background: linear-gradient(135deg, #ff9500, #ff6b00); }
+  .list-item-info { flex: 1; min-width: 0; }
+  .list-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .list-item-meta {
+    font-size: 11px;
+    color: var(--fg-muted);
+  }
+  .list-item-by {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .list-item-by.a { background: rgba(255, 85, 119, 0.2); color: #ff8888; }
+  .list-item-by.b { background: rgba(124, 92, 255, 0.2); color: #aa9aff; }
+  .list-item-by.c { background: rgba(0, 212, 170, 0.2); color: #5ce5c5; }
+
+  .activity-bar {
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(124, 92, 255, 0.1);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--fg-muted);
+  }
+  .activity-bar strong { color: var(--fg); }
+
+  /* ---- Subscription Mockup ---- */
+  .subs-summary {
+    padding: 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(124, 92, 255, 0.1));
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    margin-bottom: 14px;
+  }
+  .subs-summary-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent-3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .subs-summary-rec {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .subs-summary-detail {
+    font-size: 11px;
+    color: var(--fg-muted);
+  }
+  .subs-summary-detail strong { color: var(--accent-3); font-size: 13px; }
+
+  .subs-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    margin-bottom: 6px;
+  }
+  .subs-mini-poster {
+    width: 28px;
+    height: 40px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .subs-mini-poster.a { background: linear-gradient(135deg, #ff5577, #ff8888); }
+  .subs-mini-poster.b { background: linear-gradient(135deg, #7c5cff, #5cb3ff); }
+  .subs-mini-poster.c { background: linear-gradient(135deg, #00d4aa, #00b894); }
+  .subs-mini-poster.d { background: linear-gradient(135deg, #ff9500, #ff6b00); }
+  .subs-mini-poster.e { background: linear-gradient(135deg, #888, #555); }
+  .subs-item-info { flex: 1; min-width: 0; }
+  .subs-item-title {
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .service-badge {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 4px;
+    color: white;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+  .service-badge.netflix { background: var(--netflix); }
+  .service-badge.prime { background: var(--prime); }
+  .service-badge.disney { background: var(--disney); }
+  .service-badge.hulu { background: var(--hulu); color: #000; }
+  .service-badge.unavailable {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--fg-muted);
+  }
+
+  /* ---- Other features ---- */
+  .other-features {
+    padding: 120px 0;
+  }
+  .section-head {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-label-mini {
     font-size: 13px;
     font-weight: 600;
     color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
   }
   .section-title {
     font-size: clamp(28px, 4vw, 44px);
@@ -177,31 +664,18 @@
     margin-bottom: 16px;
   }
   .section-subtitle {
-    font-size: 18px;
+    font-size: 17px;
     color: var(--fg-muted);
     max-width: 600px;
-  }
-  .section-head {
-    margin-bottom: 60px;
-  }
-  .section-head.center {
-    text-align: center;
-  }
-  .section-head.center .section-subtitle { margin-left: auto; margin-right: auto; }
-
-  /* ---- Features ---- */
-  .features {
-    background: var(--bg-soft);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    margin: 0 auto;
   }
   .feature-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
   }
   .feature-card {
-    padding: 32px;
+    padding: 28px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border);
     border-radius: 20px;
@@ -212,111 +686,24 @@
     border-color: rgba(255, 85, 119, 0.4);
   }
   .feature-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 22px;
+    margin-bottom: 16px;
   }
   .feature-card h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     margin-bottom: 8px;
   }
   .feature-card p {
     color: var(--fg-muted);
-    font-size: 15px;
-  }
-
-  /* ---- How it works ---- */
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 32px;
-  }
-  .step {
-    text-align: left;
-  }
-  .step-number {
-    display: inline-block;
-    font-size: 56px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1;
-    margin-bottom: 16px;
-  }
-  .step h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .step p {
-    color: var(--fg-muted);
-    font-size: 15px;
-  }
-
-  /* ---- Social ---- */
-  .social {
-    background: var(--bg-soft);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .social-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-  @media (max-width: 768px) {
-    .social-grid { grid-template-columns: 1fr; gap: 40px; }
-  }
-  .mock {
-    background: linear-gradient(135deg, rgba(255, 85, 119, 0.1), rgba(124, 92, 255, 0.1));
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
-  }
-  .mock-list-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 14px;
-    margin-bottom: 12px;
-  }
-  .mock-list-item:last-child { margin-bottom: 0; }
-  .mock-poster {
-    width: 48px;
-    height: 64px;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #444, #222);
-    flex-shrink: 0;
-  }
-  .mock-info {
-    flex: 1;
-    min-width: 0;
-  }
-  .mock-title {
-    font-weight: 600;
     font-size: 14px;
-    margin-bottom: 4px;
-  }
-  .mock-meta {
-    font-size: 12px;
-    color: var(--fg-muted);
-  }
-  .mock-rating {
-    color: var(--accent);
-    font-size: 13px;
-    font-weight: 600;
   }
 
   /* ---- CTA ---- */
@@ -325,6 +712,8 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
   }
   .cta::before {
     content: "";
@@ -349,7 +738,7 @@
     font-size: 18px;
     color: var(--fg-muted);
     margin-bottom: 40px;
-    max-width: 500px;
+    max-width: 520px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -368,9 +757,8 @@
     flex-wrap: wrap;
     gap: 16px;
   }
-  footer .attribution {
-    font-size: 12px;
-  }
+  footer .attribution { font-size: 12px; }
+  footer a { color: var(--fg-muted); }
 
 </style>
 </head>
@@ -383,145 +771,446 @@
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="container hero-content">
     <span class="hero-badge">🎬 映画好きのための新しいSNS</span>
     <h1>
-      観たい映画も、観た映画も。<br />
-      <span class="gradient">仲間と一緒に。</span>
+      観たいを"スワイプ"。<br />
+      仲間と<span class="gradient">シェア</span>。<br />
+      サブスクは<span class="gradient">最適化</span>。
     </h1>
     <p>
-      気になる作品をリストにためて、観た感想を残して、<br />
-      お気に入りのリストは友達とシェア。<br />
-      映画体験を、もっと豊かに。
+      Tinder感覚で気軽に作品を仕分けて、<br />
+      友達とリストを共有。観たい作品が今どこで観れるかも、ひと目でわかる。
     </p>
     <div class="hero-actions">
       <a href="#cta" class="btn-primary">App Store で入手</a>
-      <a href="#features" class="btn-secondary">機能を見る</a>
+      <a href="#tinder" class="btn-secondary">機能を見る</a>
+    </div>
+  </div>
+
+  <!-- Triple phone preview -->
+  <div class="hero-preview container">
+    <!-- Phone 1: Tinder -->
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-content">
+          <div class="phone-header">
+            <div class="phone-title">仕分け</div>
+            <div class="phone-icon-btn">⚙</div>
+          </div>
+          <div class="tinder-area" style="height: 360px;">
+            <div class="tinder-card bg-1"></div>
+            <div class="tinder-card bg-2"></div>
+            <div class="tinder-card top">
+              <div class="tinder-poster">🎬</div>
+              <div class="tinder-stamp like">LIKE</div>
+              <div class="tinder-info">
+                <div class="tinder-info-title">インターステラー</div>
+                <div class="tinder-info-meta">2014 · SF · ★4.8</div>
+              </div>
+            </div>
+          </div>
+          <div class="tinder-actions">
+            <div class="tinder-btn no">✕</div>
+            <div class="tinder-btn yes">♥</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone 2: Shared list -->
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-content">
+          <div class="phone-header">
+            <div class="phone-title">SF映画特集</div>
+            <div class="phone-icon-btn">⤴</div>
+          </div>
+          <div class="shared-list-header">
+            <div class="shared-list-meta">
+              <div class="avatars">
+                <div class="avatar a">K</div>
+                <div class="avatar b">T</div>
+                <div class="avatar c">H</div>
+                <div class="avatar d">+2</div>
+              </div>
+              <span>5人が参加中 · 12作品</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-poster p1"></div>
+            <div class="list-item-info">
+              <div class="list-item-title">インセプション</div>
+              <div class="list-item-meta">2010 · クリストファー・ノーラン</div>
+            </div>
+            <div class="list-item-by a">K</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-poster p2"></div>
+            <div class="list-item-info">
+              <div class="list-item-title">マトリックス</div>
+              <div class="list-item-meta">1999 · ウォシャウスキー</div>
+            </div>
+            <div class="list-item-by b">T</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-poster p3"></div>
+            <div class="list-item-info">
+              <div class="list-item-title">ブレードランナー2049</div>
+              <div class="list-item-meta">2017 · ヴィルヌーヴ</div>
+            </div>
+            <div class="list-item-by c">H</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-poster p4"></div>
+            <div class="list-item-info">
+              <div class="list-item-title">DUNE/デューン</div>
+              <div class="list-item-meta">2021 · ヴィルヌーヴ</div>
+            </div>
+            <div class="list-item-by a">K</div>
+          </div>
+          <div class="activity-bar">
+            <strong>たろう</strong> がリストに2作品追加しました
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone 3: Subscription -->
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-content">
+          <div class="phone-header">
+            <div class="phone-title">配信状況</div>
+            <div class="phone-icon-btn">📊</div>
+          </div>
+          <div class="subs-summary">
+            <div class="subs-summary-label">💡 おすすめサブスク</div>
+            <div class="subs-summary-rec">Netflix だけで十分</div>
+            <div class="subs-summary-detail">
+              みたいリストの<strong>78%</strong>をカバー · 月額¥1,490
+            </div>
+          </div>
+          <div class="subs-list-item">
+            <div class="subs-mini-poster a"></div>
+            <div class="subs-item-info">
+              <div class="subs-item-title">ストレンジャー・シングス</div>
+            </div>
+            <div class="service-badge netflix">Netflix</div>
+          </div>
+          <div class="subs-list-item">
+            <div class="subs-mini-poster b"></div>
+            <div class="subs-item-info">
+              <div class="subs-item-title">ザ・ボーイズ</div>
+            </div>
+            <div class="service-badge prime">Prime</div>
+          </div>
+          <div class="subs-list-item">
+            <div class="subs-mini-poster c"></div>
+            <div class="subs-item-info">
+              <div class="subs-item-title">ペーパー・ハウス</div>
+            </div>
+            <div class="service-badge netflix">Netflix</div>
+          </div>
+          <div class="subs-list-item">
+            <div class="subs-mini-poster d"></div>
+            <div class="subs-item-info">
+              <div class="subs-item-title">マンダロリアン</div>
+            </div>
+            <div class="service-badge disney">Disney+</div>
+          </div>
+          <div class="subs-list-item">
+            <div class="subs-mini-poster e"></div>
+            <div class="subs-item-info">
+              <div class="subs-item-title">クイーンズ・ギャンビット</div>
+            </div>
+            <div class="service-badge netflix">Netflix</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="features" id="features">
+<!-- 3 KEY POINTS RIBBON -->
+<section class="key-points">
   <div class="container">
-    <div class="section-head center">
-      <div class="section-label">Features</div>
-      <h2 class="section-title">映画体験のすべてを、ひとつに。</h2>
-      <p class="section-subtitle">
-        作品を見つけて、記録して、共有する。<br />
-        必要な機能を、シンプルに。
-      </p>
+    <div class="key-points-grid">
+      <div class="key-point">
+        <div class="key-point-emoji">💫</div>
+        <div class="key-point-title">スワイプで仕分け</div>
+        <div class="key-point-desc">気軽に「みたい・興味なし」を判定</div>
+      </div>
+      <div class="key-point">
+        <div class="key-point-emoji">👥</div>
+        <div class="key-point-title">リストを共有</div>
+        <div class="key-point-desc">友達と一緒にリストを育てる</div>
+      </div>
+      <div class="key-point">
+        <div class="key-point-emoji">💰</div>
+        <div class="key-point-title">サブスク最適化</div>
+        <div class="key-point-desc">どの配信サービスがコスパ最強か可視化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 1: TINDER UI -->
+<section class="feature-section" id="tinder">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-text">
+        <span class="feature-label pink">⚡ Quick Sorting</span>
+        <h2 class="feature-title">
+          観たい作品は、<br />指でひと振り。
+        </h2>
+        <p class="feature-description">
+          おすすめ作品が次々表示。気になったら右スワイプで「みたい」リストへ、興味なければ左スワイプ。
+          まるでマッチングアプリのような感覚で、退屈な作品選びがゲームに変わります。
+        </p>
+        <ul class="feature-bullets">
+          <li>1日5分で50作品を仕分けできる軽快さ</li>
+          <li>あなたの好みを学習して、おすすめがどんどん精度UP</li>
+          <li>「あとで決める」スワイプも用意</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-content">
+              <div class="phone-header">
+                <div class="phone-title">仕分け</div>
+                <div class="phone-icon-btn">⚙</div>
+              </div>
+              <div class="tinder-area">
+                <div class="tinder-card bg-1"></div>
+                <div class="tinder-card bg-2"></div>
+                <div class="tinder-card top">
+                  <div class="tinder-poster">🎬</div>
+                  <div class="tinder-stamp like">LIKE</div>
+                  <div class="tinder-info">
+                    <div class="tinder-info-title">エブエブ</div>
+                    <div class="tinder-info-meta">2022 · SF・コメディ · ★4.7</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tinder-actions">
+                <div class="tinder-btn no">✕</div>
+                <div class="tinder-btn yes">♥</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 2: SHARED LIST -->
+<section class="feature-section alt" id="share">
+  <div class="container">
+    <div class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-label purple">👥 Share with friends</span>
+        <h2 class="feature-title">
+          友達と一緒に、<br />リストを育てよう。
+        </h2>
+        <p class="feature-description">
+          作ったリストは友達に共有して、みんなで作品を追加。
+          「今度みんなで観る映画」「あの作品好きな人集まれ」を、リストで実現。
+          気の合う仲間からのおすすめは、いつも次の名作との出会いに。
+        </p>
+        <ul class="feature-bullets">
+          <li>リストごとに公開・限定共有・非公開を選択</li>
+          <li>誰がいつ何を追加したかが見える共同編集</li>
+          <li>フォロー機能で気の合うキュレーターを発見</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-content">
+              <div class="phone-header">
+                <div class="phone-title">SF映画特集</div>
+                <div class="phone-icon-btn">⤴</div>
+              </div>
+              <div class="shared-list-header">
+                <div class="shared-list-meta">
+                  <div class="avatars">
+                    <div class="avatar a">K</div>
+                    <div class="avatar b">T</div>
+                    <div class="avatar c">H</div>
+                    <div class="avatar d">+2</div>
+                  </div>
+                  <span>5人が参加中 · 12作品</span>
+                </div>
+              </div>
+              <div class="list-item">
+                <div class="list-item-poster p1"></div>
+                <div class="list-item-info">
+                  <div class="list-item-title">インセプション</div>
+                  <div class="list-item-meta">2010 · ノーラン</div>
+                </div>
+                <div class="list-item-by a">K</div>
+              </div>
+              <div class="list-item">
+                <div class="list-item-poster p2"></div>
+                <div class="list-item-info">
+                  <div class="list-item-title">マトリックス</div>
+                  <div class="list-item-meta">1999 · ウォシャウスキー</div>
+                </div>
+                <div class="list-item-by b">T</div>
+              </div>
+              <div class="list-item">
+                <div class="list-item-poster p3"></div>
+                <div class="list-item-info">
+                  <div class="list-item-title">ブレードランナー2049</div>
+                  <div class="list-item-meta">2017 · ヴィルヌーヴ</div>
+                </div>
+                <div class="list-item-by c">H</div>
+              </div>
+              <div class="list-item">
+                <div class="list-item-poster p4"></div>
+                <div class="list-item-info">
+                  <div class="list-item-title">DUNE/デューン</div>
+                  <div class="list-item-meta">2021 · ヴィルヌーヴ</div>
+                </div>
+                <div class="list-item-by a">K</div>
+              </div>
+              <div class="activity-bar">
+                <strong>たろう</strong> がリストに2作品追加しました
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 3: SUBSCRIPTION -->
+<section class="feature-section" id="subs">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-text">
+        <span class="feature-label green">💰 Save your money</span>
+        <h2 class="feature-title">
+          そのサブスク、<br />本当に必要？
+        </h2>
+        <p class="feature-description">
+          あなたのみたいリストに対して、どの配信サービスがコスパ最強か自動で計算。
+          「観たい作品の8割がNetflixにある」「Disney+ は今月解約してもOK」など、
+          ムダな月額料金にサヨナラ。
+        </p>
+        <ul class="feature-bullets">
+          <li>Netflix・Prime Video・Disney+・Hulu等の配信状況を一括表示</li>
+          <li>最小コストで最大カバー率のサブスク組み合わせを提案</li>
+          <li>解約タイミングを通知して、年間¥10,000以上の節約も</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-content">
+              <div class="phone-header">
+                <div class="phone-title">配信状況</div>
+                <div class="phone-icon-btn">📊</div>
+              </div>
+              <div class="subs-summary">
+                <div class="subs-summary-label">💡 おすすめサブスク</div>
+                <div class="subs-summary-rec">Netflix だけで十分</div>
+                <div class="subs-summary-detail">
+                  みたいリストの<strong>78%</strong>をカバー · 月額¥1,490
+                </div>
+              </div>
+              <div class="subs-list-item">
+                <div class="subs-mini-poster a"></div>
+                <div class="subs-item-info">
+                  <div class="subs-item-title">ストレンジャー・シングス</div>
+                </div>
+                <div class="service-badge netflix">Netflix</div>
+              </div>
+              <div class="subs-list-item">
+                <div class="subs-mini-poster b"></div>
+                <div class="subs-item-info">
+                  <div class="subs-item-title">ザ・ボーイズ</div>
+                </div>
+                <div class="service-badge prime">Prime</div>
+              </div>
+              <div class="subs-list-item">
+                <div class="subs-mini-poster c"></div>
+                <div class="subs-item-info">
+                  <div class="subs-item-title">ペーパー・ハウス</div>
+                </div>
+                <div class="service-badge netflix">Netflix</div>
+              </div>
+              <div class="subs-list-item">
+                <div class="subs-mini-poster d"></div>
+                <div class="subs-item-info">
+                  <div class="subs-item-title">マンダロリアン</div>
+                </div>
+                <div class="service-badge disney">Disney+</div>
+              </div>
+              <div class="subs-list-item">
+                <div class="subs-mini-poster e"></div>
+                <div class="subs-item-info">
+                  <div class="subs-item-title">クイーンズ・ギャンビット</div>
+                </div>
+                <div class="service-badge netflix">Netflix</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER FEATURES -->
+<section class="other-features">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label-mini">More Features</div>
+      <h2 class="section-title">そのほかの便利機能</h2>
     </div>
     <div class="feature-grid">
       <div class="feature-card">
         <div class="feature-icon">🔍</div>
         <h3>豊富な作品データ</h3>
-        <p>TMDbの膨大な映画データベースから、観たい作品を瞬時に検索。あらすじ・キャスト・ポスター全て揃っています。</p>
+        <p>TMDbの膨大なデータベースから、観たい作品を瞬時に検索。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">⭐</div>
         <h3>評価とメモ</h3>
-        <p>観た作品に自分なりの評価をつけて、感想をメモ。後から見返したときに「あの時の気持ち」が蘇ります。</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📋</div>
-        <h3>自由なリスト</h3>
-        <p>「週末に観る」「ホラー特集」「今年のベスト」など、テーマごとに自由にリストを作成できます。</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>リストを共有</h3>
-        <p>作ったリストは友達とシェア可能。気の合う仲間のおすすめから、次に観る作品が見つかります。</p>
+        <p>観た作品に自分なりの評価とメモを残して、あとから振り返れる。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📱</div>
         <h3>ホーム画面ウィジェット</h3>
-        <p>「みたい」リストをホーム画面に表示。観たい作品を忘れない、いつでも手の届く場所に。</p>
+        <p>みたいリストをいつでもホーム画面に表示。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">☁️</div>
         <h3>クラウド同期</h3>
-        <p>Apple ID / Google アカウントでログイン。機種変更しても、あなたの映画ライフはそのまま。</p>
+        <p>Apple ID / Google アカウントでログイン。機種変更しても安心。</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="howto">
-  <div class="container">
-    <div class="section-head center">
-      <div class="section-label">How it works</div>
-      <h2 class="section-title">使い方は、シンプル。</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">01</div>
-        <h3>作品を探す</h3>
-        <p>気になる映画を検索。タイトル・キャスト・ジャンルから簡単に見つけられます。</p>
-      </div>
-      <div class="step">
-        <div class="step-number">02</div>
-        <h3>リストに追加</h3>
-        <p>「みたい」リストに保存。テーマ別の自作リストにも入れられます。</p>
-      </div>
-      <div class="step">
-        <div class="step-number">03</div>
-        <h3>記録する</h3>
-        <p>観終わったら評価とメモを残す。あなただけの映画ログが育っていきます。</p>
-      </div>
-      <div class="step">
-        <div class="step-number">04</div>
-        <h3>共有する</h3>
-        <p>お気に入りのリストを友達にシェア。映画の話で盛り上がろう。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="social">
-  <div class="container">
-    <div class="social-grid">
-      <div>
-        <div class="section-label">Social</div>
-        <h2 class="section-title">ひとりで楽しむのも、<br />誰かと分かち合うのも。</h2>
-        <p class="section-subtitle">
-          リストの公開・非公開はあなた次第。お気に入りの作品リストを共有して、新しい出会いを見つけよう。
-        </p>
-      </div>
-      <div class="mock">
-        <div class="mock-list-item">
-          <div class="mock-poster"></div>
-          <div class="mock-info">
-            <div class="mock-title">めちゃ泣ける映画10選</div>
-            <div class="mock-meta">@kaoru · 10作品</div>
-          </div>
-          <div class="mock-rating">★ 4.8</div>
-        </div>
-        <div class="mock-list-item">
-          <div class="mock-poster"></div>
-          <div class="mock-info">
-            <div class="mock-title">週末に観たいSF</div>
-            <div class="mock-meta">@taro · 7作品</div>
-          </div>
-          <div class="mock-rating">★ 4.5</div>
-        </div>
-        <div class="mock-list-item">
-          <div class="mock-poster"></div>
-          <div class="mock-info">
-            <div class="mock-title">今年見たベスト映画</div>
-            <div class="mock-meta">@hanako · 15作品</div>
-          </div>
-          <div class="mock-rating">★ 4.9</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- CTA -->
 <section class="cta" id="cta">
   <div class="container cta-content">
-    <h2>あなたの映画ライフを、<br />はじめよう。</h2>
-    <p>iOS 17 以降対応。Apple ID または Google アカウントで、すぐに使えます。</p>
+    <h2>もう、映画選びで<br />悩まない。</h2>
+    <p>iOS 17 以降対応。Apple ID または Google アカウントで、すぐに始められます。</p>
     <div class="hero-actions">
       <a href="#" class="btn-primary">App Store で入手</a>
     </div>
@@ -532,7 +1221,7 @@
   <div class="container">
     <div>© 2026 みてぴ</div>
     <div class="attribution">
-      映画データ提供: <a href="https://www.themoviedb.org/" style="color: var(--fg-muted);">TMDb</a>
+      映画データ提供: <a href="https://www.themoviedb.org/">TMDb</a>
     </div>
   </div>
 </footer>
