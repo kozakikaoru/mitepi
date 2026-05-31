@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>みてぴ - 映画と仲間とつながる、新しい鑑賞体験</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-soft: #12121a;
+    --fg: #f5f5f7;
+    --fg-muted: #a0a0ac;
+    --accent: #ff5577;
+    --accent-2: #7c5cff;
+    --border: rgba(255, 255, 255, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+                 "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- Header ---- */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 20px 0;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 15, 0.7);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+  header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-cta {
+    padding: 10px 20px;
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); }
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    padding: 180px 0 120px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 85, 119, 0.25), transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.2), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--fg-muted);
+    margin-bottom: 40px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white;
+    box-shadow: 0 10px 30px rgba(255, 85, 119, 0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(255, 85, 119, 0.4); }
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--fg);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+  /* ---- Section ---- */
+  section {
+    padding: 100px 0;
+  }
+  .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .section-subtitle {
+    font-size: 18px;
+    color: var(--fg-muted);
+    max-width: 600px;
+  }
+  .section-head {
+    margin-bottom: 60px;
+  }
+  .section-head.center {
+    text-align: center;
+  }
+  .section-head.center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+  /* ---- Features ---- */
+  .features {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .feature-card {
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 85, 119, 0.4);
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .feature-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .feature-card p {
+    color: var(--fg-muted);
+    font-size: 15px;
+  }
+
+  /* ---- How it works ---- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+  }
+  .step {
+    text-align: left;
+  }
+  .step-number {
+    display: inline-block;
+    font-size: 56px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .step p {
+    color: var(--fg-muted);
+    font-size: 15px;
+  }
+
+  /* ---- Social ---- */
+  .social {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .social-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .mock {
+    background: linear-gradient(135deg, rgba(255, 85, 119, 0.1), rgba(124, 92, 255, 0.1));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+  }
+  .mock-list-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  .mock-list-item:last-child { margin-bottom: 0; }
+  .mock-poster {
+    width: 48px;
+    height: 64px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #444, #222);
+    flex-shrink: 0;
+  }
+  .mock-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .mock-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .mock-meta {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .mock-rating {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* ---- CTA ---- */
+  .cta {
+    padding: 140px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(124, 92, 255, 0.25), transparent 70%);
+    pointer-events: none;
+  }
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+  .cta h2 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .cta p {
+    font-size: 18px;
+    color: var(--fg-muted);
+    margin-bottom: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ---- Footer ---- */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--fg-muted);
+    font-size: 14px;
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .attribution {
+    font-size: 12px;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">みてぴ</div>
+    <a href="#cta" class="nav-cta">はじめる</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-content">
+    <span class="hero-badge">🎬 映画好きのための新しいSNS</span>
+    <h1>
+      観たい映画も、観た映画も。<br />
+      <span class="gradient">仲間と一緒に。</span>
+    </h1>
+    <p>
+      気になる作品をリストにためて、観た感想を残して、<br />
+      お気に入りのリストは友達とシェア。<br />
+      映画体験を、もっと豊かに。
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">App Store で入手</a>
+      <a href="#features" class="btn-secondary">機能を見る</a>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-head center">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">映画体験のすべてを、ひとつに。</h2>
+      <p class="section-subtitle">
+        作品を見つけて、記録して、共有する。<br />
+        必要な機能を、シンプルに。
+      </p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>豊富な作品データ</h3>
+        <p>TMDbの膨大な映画データベースから、観たい作品を瞬時に検索。あらすじ・キャスト・ポスター全て揃っています。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>評価とメモ</h3>
+        <p>観た作品に自分なりの評価をつけて、感想をメモ。後から見返したときに「あの時の気持ち」が蘇ります。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>自由なリスト</h3>
+        <p>「週末に観る」「ホラー特集」「今年のベスト」など、テーマごとに自由にリストを作成できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>リストを共有</h3>
+        <p>作ったリストは友達とシェア可能。気の合う仲間のおすすめから、次に観る作品が見つかります。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>ホーム画面ウィジェット</h3>
+        <p>「みたい」リストをホーム画面に表示。観たい作品を忘れない、いつでも手の届く場所に。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3>クラウド同期</h3>
+        <p>Apple ID / Google アカウントでログイン。機種変更しても、あなたの映画ライフはそのまま。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="howto">
+  <div class="container">
+    <div class="section-head center">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">使い方は、シンプル。</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <h3>作品を探す</h3>
+        <p>気になる映画を検索。タイトル・キャスト・ジャンルから簡単に見つけられます。</p>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <h3>リストに追加</h3>
+        <p>「みたい」リストに保存。テーマ別の自作リストにも入れられます。</p>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <h3>記録する</h3>
+        <p>観終わったら評価とメモを残す。あなただけの映画ログが育っていきます。</p>
+      </div>
+      <div class="step">
+        <div class="step-number">04</div>
+        <h3>共有する</h3>
+        <p>お気に入りのリストを友達にシェア。映画の話で盛り上がろう。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="social">
+  <div class="container">
+    <div class="social-grid">
+      <div>
+        <div class="section-label">Social</div>
+        <h2 class="section-title">ひとりで楽しむのも、<br />誰かと分かち合うのも。</h2>
+        <p class="section-subtitle">
+          リストの公開・非公開はあなた次第。お気に入りの作品リストを共有して、新しい出会いを見つけよう。
+        </p>
+      </div>
+      <div class="mock">
+        <div class="mock-list-item">
+          <div class="mock-poster"></div>
+          <div class="mock-info">
+            <div class="mock-title">めちゃ泣ける映画10選</div>
+            <div class="mock-meta">@kaoru · 10作品</div>
+          </div>
+          <div class="mock-rating">★ 4.8</div>
+        </div>
+        <div class="mock-list-item">
+          <div class="mock-poster"></div>
+          <div class="mock-info">
+            <div class="mock-title">週末に観たいSF</div>
+            <div class="mock-meta">@taro · 7作品</div>
+          </div>
+          <div class="mock-rating">★ 4.5</div>
+        </div>
+        <div class="mock-list-item">
+          <div class="mock-poster"></div>
+          <div class="mock-info">
+            <div class="mock-title">今年見たベスト映画</div>
+            <div class="mock-meta">@hanako · 15作品</div>
+          </div>
+          <div class="mock-rating">★ 4.9</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="container cta-content">
+    <h2>あなたの映画ライフを、<br />はじめよう。</h2>
+    <p>iOS 17 以降対応。Apple ID または Google アカウントで、すぐに使えます。</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">App Store で入手</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 みてぴ</div>
+    <div class="attribution">
+      映画データ提供: <a href="https://www.themoviedb.org/" style="color: var(--fg-muted);">TMDb</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
